@@ -17,7 +17,7 @@ const BlogNavbar = () => {
             </Link>
             <div className="h-6 w-px bg-gray-300 hidden md:block"></div>
             <Link to="/blog" className="text-2xl font-bold text-primary tracking-tight">
-              Faris<span className="text-highlight">.Insights</span>
+              Shafee<span className="text-highlight">.Insights</span>
             </Link>
           </div>
 
