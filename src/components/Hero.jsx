@@ -30,11 +30,11 @@ const Hero = () => {
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
               Building Scalable <br />
-              <span className="text-highlight">Cloud & Web</span> Solutions.
+              <span className="text-highlight">Web & Mobile</span> Solutions.
             </h1>
             
             <p className="text-base md:text-lg text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Hi, I'm <span className="text-white font-semibold">Faris Shafee</span>. A Full-Stack Engineer specialized in React, Laravel, and Azure. I transform complex problems into secure, high-performance applications.
+              Hi, I'm <span className="text-white font-semibold">Faris Shafee Ahamed</span>. A Full-Stack Engineer specialized in React, Angular, Tailwind CSS, Node, Next Js, Express JS, Mongo DB, MS SQL, My SQL, Oracle DB, Stored Procedures, Azure & AWS. I transform complex problems into secure, high-performance applications.
             </p>
 
             {/* Buttons */}
@@ -60,12 +60,12 @@ const Hero = () => {
               </div>
               <div className="w-px h-12 bg-gray-800"></div> {/* Vertical Divider */}
               <div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white">10+</h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-white">30+</h3>
                 <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Projects</p>
               </div>
               <div className="w-px h-12 bg-gray-800"></div> {/* Vertical Divider */}
               <div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white">5+</h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-white">10+</h3>
                 <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Certifications</p>
               </div>
             </div>
@@ -82,7 +82,7 @@ const Hero = () => {
               {/* Image Container */}
               <div className="absolute inset-0 bg-gradient-to-tr from-secondary to-primary rounded-full border-[6px] border-secondary/30 shadow-2xl overflow-hidden z-10">
                 <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&h=800" 
+                  src="../assets/prof.png" 
                   alt="Faris Shafee" 
                   className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-500"
                 />

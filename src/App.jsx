@@ -18,10 +18,10 @@ const Layout = ({ children }) => {
       
       {children}
 
-      {/* Global Footer */}
+      {/* Global Footer
       <div className="py-8 bg-primary text-center text-gray-500 text-sm border-t border-white/10">
         © {new Date().getFullYear()} Faris Shafee. Built with React & Tailwind.
-      </div>
+      </div> */}
 
       {/* Global Chatbot - Always visible */}
       <Chatbot />

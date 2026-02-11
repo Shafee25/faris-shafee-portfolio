@@ -46,7 +46,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
             <span className="text-xl md:text-2xl font-bold text-white tracking-wider">
-              Faris<span className="text-highlight">.Dev</span>
+              Shafee<span className="text-highlight"> Ahamed</span>
             </span>
           </Link>
 

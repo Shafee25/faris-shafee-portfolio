@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, Sparkles, Loader2 } from 'lucide-react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import ReactMarkdown from 'react-markdown';
 
@@ -12,16 +12,13 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Initialize Gemini
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(scrollToBottom, [messages]);
 
-  // SYSTEM PROMPT: This feeds your CV to the AI
+  // SYSTEM PROMPT
   const systemPrompt = `
     You are an AI Assistant for Faris Shafee Ahamed, a Software Engineer.
     
@@ -42,7 +39,6 @@ const Chatbot = () => {
     RULES:
     - Keep answers concise, professional, and friendly.
     - If asked about hiring, encourage them to use the Contact form or email.
-    - If asked a technical question, answer it to demonstrate Faris's knowledge.
     - You are REPRESENTING Faris. Be polite.
   `;
 
@@ -55,9 +51,15 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      // DEBUG: Check if Key exists
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error("API Key is missing! Check .env file.");
+      }
+
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
       
-      // Construct history for context
       const chat = model.startChat({
         history: [
           {
@@ -77,8 +79,17 @@ const Chatbot = () => {
 
       setMessages(prev => [...prev, { role: 'model', text: text }]);
     } catch (error) {
-      console.error("Error:", error);
-      setMessages(prev => [...prev, { role: 'model', text: "Oops! My brain is offline right now. Please try again later." }]);
+      console.error("Gemini Error:", error); // <-- THIS PRINTS TO CONSOLE (F12)
+      
+      let errorMessage = "Oops! My brain is offline right now.";
+      
+      if (error.message.includes("API Key is missing")) {
+        errorMessage = "Configuration Error: API Key is missing.";
+      } else if (error.message.includes("400")) {
+        errorMessage = "Connection Error: Please try again.";
+      }
+
+      setMessages(prev => [...prev, { role: 'model', text: errorMessage }]);
     } finally {
       setIsLoading(false);
     }
@@ -90,7 +101,6 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-secondary to-primary text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 group border border-highlight/30"
@@ -101,11 +111,9 @@ const Chatbot = () => {
         )}
       </button>
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="fixed bottom-24 right-6 w-[90vw] md:w-96 h-[500px] z-50 bg-[#0F1C20]/95 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
           
-          {/* Header */}
           <div className="bg-gradient-to-r from-secondary to-primary p-4 flex items-center gap-3 border-b border-white/10">
             <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center relative">
                <Bot size={20} className="text-highlight" />
@@ -119,7 +127,6 @@ const Chatbot = () => {
             </div>
           </div>
 
-          {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
             {messages.map((msg, index) => (
               <div
@@ -148,7 +155,6 @@ const Chatbot = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area */}
           <div className="p-4 bg-black/20 border-t border-white/10">
             <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/10 focus-within:border-highlight/50 transition-colors">
               <input
