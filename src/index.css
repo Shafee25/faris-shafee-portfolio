@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth; /* <-- ADD THIS LINE */
+}
+
 body {
   background-color: #0F1C20;
   color: #E0E6ED;

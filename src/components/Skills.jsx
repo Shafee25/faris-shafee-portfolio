@@ -9,14 +9,14 @@ const Skills = () => {
       title: "Full Stack Web",
       icon: <Code size={32} className="text-highlight" />,
       description: "Building responsive apps with React, Node.js, and Laravel using MVC architecture.",
-      tools: ["React.js", "Laravel", "Node.js", "Tailwind"]
+      tools: ["React.js", "Node.js", "Express JS", "Tailwind", "Next.js", "MySQL", "MongoDB", "Ms SQL", "Git", "Stored Procedures", "Laravel"]
     },
     {
       id: 2,
       title: "Cloud & DevOps",
       icon: <Cloud size={32} className="text-blue-400" />,
       description: "Deploying serverless applications on Azure/AWS and managing CI/CD pipelines.",
-      tools: ["Azure Functions", "Cosmos DB", "AWS", "Docker"]
+      tools: ["Azure Functions", "Cosmos DB", "AWS", "Docker", "EC2"]
     },
     {
       id: 3,

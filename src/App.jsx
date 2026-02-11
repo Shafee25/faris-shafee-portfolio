@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import Skills from './components/Skills';
 import Experience from './components/Experience'; // <-- Import
 import Projects from './components/Projects';     // <-- Import
+import Contact  from './components/Contact';
 
 function App() {
   return (
@@ -13,11 +14,8 @@ function App() {
       <Skills />
       <Experience /> {/* <-- Add Timeline */}
       <Projects />   {/* <-- Add Projects */}
+      <Contact /> {/* <-- Add Contact Section */}
       
-      {/* Footer Placeholder */}
-      <div className="py-8 bg-primary text-center text-gray-500 text-sm border-t border-white/10">
-        © 2026 Faris Shafee. Built with React & Tailwind.
-      </div>
     </div>
   );
 }
