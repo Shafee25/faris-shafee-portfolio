@@ -43,8 +43,8 @@ const Hero = () => {
               
               {/* WORKING DOWNLOAD BUTTON */}
               <a 
-                href="/Faris_Shafee_CV.pdf" 
-                download="Faris_Shafee_CV.pdf"
+                href="/FarisShafeeCV.pdf" 
+                download="Faris Shafee - CV.pdf"
                 className="w-full sm:w-auto px-8 py-3 border border-gray-600 text-white font-medium rounded-full hover:border-highlight hover:text-highlight transition-all duration-300 flex items-center justify-center gap-2"
               >
                 Download CV <Download size={18} />
