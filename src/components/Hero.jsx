@@ -29,7 +29,7 @@ const Hero = () => {
             </h1>
             
             <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0">
-              I am <span className="text-white font-semibold">Faris Shafee</span>, a Full-Stack Engineer specialized in React, Laravel, and Azure. I build secure, high-performance applications for Web, Mobile, and IoT.
+              I am <span className="text-white font-semibold">Faris Shafee Ahamed</span>, a Full-Stack Engineer specialized in React, Laravel, and Azure. I build secure, high-performance applications for Web, Mobile, and IoT.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">

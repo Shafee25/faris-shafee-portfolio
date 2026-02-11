@@ -18,7 +18,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <span className="text-2xl font-bold text-white tracking-wider">
-              Faris<span className="text-highlight">.Dev</span>
+              Shafee<span className="text-highlight">.Dev</span>
             </span>
           </div>
 
