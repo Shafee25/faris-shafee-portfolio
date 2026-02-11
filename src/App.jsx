@@ -1,18 +1,22 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Skills from './components/Skills'; // <-- Import this
+import Skills from './components/Skills';
+import Experience from './components/Experience'; // <-- Import
+import Projects from './components/Projects';     // <-- Import
 
 function App() {
   return (
     <div className="bg-white min-h-screen">
       <Navbar />
       <Hero />
-      <Skills /> {/* <-- Add this */}
+      <Skills />
+      <Experience /> {/* <-- Add Timeline */}
+      <Projects />   {/* <-- Add Projects */}
       
-      {/* Temporary Placeholder for next sections */}
-      <div className="h-40 flex items-center justify-center text-primary/50">
-        More Content Coming Soon...
+      {/* Footer Placeholder */}
+      <div className="py-8 bg-primary text-center text-gray-500 text-sm border-t border-white/10">
+        © 2026 Faris Shafee. Built with React & Tailwind.
       </div>
     </div>
   );
