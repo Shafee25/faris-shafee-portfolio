@@ -105,7 +105,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-secondary to-primary rounded-full border-[6px] border-secondary/30 shadow-2xl overflow-hidden z-10">
                 {/* Option 2: Zoom out slightly to fit head */}
                 <img
-                  src="../../public/1.png"
+                  src="/profile.png"
                   alt="Faris Shafee"
                   className="w-full h-full object-cover object-top scale-100 opacity-90 hover:scale-100 transition-transform duration-500"
                 />
