@@ -5,6 +5,7 @@ import BlogNavbar from './components/BlogNavbar'; // <-- Import Blog Navbar
 import Home from './pages/Home';
 import Blog from './pages/Blog';
 import Chatbot from './components/Chatbot'; // <-- Import Chatbot
+import BlogPost from './pages/BlogPost'; // <--- Import this
 
 // Create a wrapper component to handle Navbar Logic
 const Layout = ({ children }) => {
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} /> {/* <--- New Route */}
         </Routes>
       </Layout>
     </Router>
