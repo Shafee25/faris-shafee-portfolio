@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import BlogNavbar from './components/BlogNavbar'; // <-- Import Blog Navbar
 import Home from './pages/Home';
 import Blog from './pages/Blog';
+import Admin from './pages/Admin'; // Import
 import Chatbot from './components/Chatbot'; // <-- Import Chatbot
 import BlogPost from './pages/BlogPost'; // <--- Import this
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} /> {/* <--- New Route */}
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Layout>
     </Router>
