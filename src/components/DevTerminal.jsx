@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, X, Minimize2, Maximize2 } from 'lucide-react';
+import { Terminal, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const DevTerminal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([
-    { type: 'output', content: 'Welcome to Faris.OS v1.0.0' },
+    { type: 'output', content: 'Welcome to Faris.OS v2.0.0 (Tech Lead Edition)' },
     { type: 'output', content: 'Type "help" to see available commands.' },
   ]);
   const inputRef = useRef(null);
   const bottomRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen && bottomRef.current) {
@@ -27,31 +29,39 @@ const DevTerminal = () => {
       let response = '';
       switch (cmd) {
         case 'help':
-          response = 'Available commands: about, skills, projects, contact, github, clear, sudo';
+          response = 'Available commands: about, skills, projects, contact, tools, github, clear, sudo';
           break;
         case 'about':
-          response = 'Faris Shafee | Full-Stack Engineer | IoT Specialist | Tech enthusiast building scalable solutions.';
+          response = 'Faris Shafee | Full-Stack Engineer | IoT Specialist | Building scalable cloud solutions.';
           break;
         case 'skills':
-          response = 'react, laravel, node.js, aws, azure, flutter, c++, python, docker';
+          response = 'Stack: React, Laravel, Node.js, Azure, AWS, Flutter, Docker, C++, Python.';
           break;
         case 'projects':
-          response = 'Check out "Oasis Amps", "Low Stock Alert", and "Smart Cradle" in the Projects section!';
+          response = 'Navigate to the Projects section to see "Oasis Amps" and "Low Stock Alert".';
+          navigate('/');
+          setTimeout(() => document.getElementById('projects')?.scrollIntoView(), 500);
           break;
         case 'contact':
           response = 'Email: shafeeahamed494@gmail.com | Phone: +94 750446123';
           break;
+        case 'tools':
+          response = 'Available Apps: "currency", "weather", "focus", "cost", "regex". Type "open <app>" to launch.';
+          break;
+        case 'open currency': navigate('/currency'); response = 'Launching Currency Converter...'; break;
+        case 'open weather': navigate('/weather'); response = 'Launching SL Climate Hub...'; break;
+        case 'open focus': navigate('/focus'); response = 'Launching DevZen Timer...'; break;
+        case 'open cost': navigate('/meeting-cost'); response = 'Launching Meeting Calculator...'; break;
+        case 'open regex': navigate('/regex'); response = 'Launching Regex Lab...'; break;
         case 'github':
           response = 'Opening GitHub...';
           window.open('https://github.com/Shafee25', '_blank');
           break;
         case 'sudo':
-          response = 'Permission denied: You are not an Admin. Nice try though!';
+          response = 'Permission denied: You are not an Admin. Access restricted to Faris Shafee.';
           break;
         case 'clear':
-          setHistory([]);
-          setInput('');
-          return;
+          setHistory([]); setInput(''); return;
         default:
           response = `Command not found: ${cmd}. Type "help" for list.`;
       }
@@ -63,7 +73,6 @@ const DevTerminal = () => {
 
   return (
     <>
-      {/* Floating Toggle Button (Bottom Left) */}
       <motion.button
         initial={{ scale: 0 }} animate={{ scale: 1 }}
         onClick={() => setIsOpen(!isOpen)}
@@ -75,7 +84,6 @@ const DevTerminal = () => {
         </span>
       </motion.button>
 
-      {/* Terminal Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -84,7 +92,6 @@ const DevTerminal = () => {
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             className="fixed bottom-24 left-6 w-[90vw] md:w-[500px] h-[350px] bg-black/95 rounded-lg border border-green-500/30 shadow-2xl z-50 flex flex-col font-mono text-sm overflow-hidden"
           >
-            {/* Terminal Header */}
             <div className="bg-gray-900 px-4 py-2 flex items-center justify-between border-b border-gray-800 select-none">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5">
@@ -97,7 +104,6 @@ const DevTerminal = () => {
               <X size={16} className="text-gray-500 hover:text-white cursor-pointer" onClick={() => setIsOpen(false)}/>
             </div>
 
-            {/* Terminal Body */}
             <div className="flex-1 p-4 overflow-y-auto custom-scrollbar text-green-400" onClick={() => inputRef.current?.focus()}>
               {history.map((line, i) => (
                 <div key={i} className="mb-1">
@@ -111,7 +117,6 @@ const DevTerminal = () => {
                 </div>
               ))}
               
-              {/* Input Line */}
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-blue-400">➜</span>
                 <span className="text-purple-400">~</span>
