@@ -1,83 +1,128 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Terminal } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom'; // Import Link
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation(); // Get current page URL
+
+  // Check if we are on the Home Page
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavigation = (e, targetId) => {
-    e.preventDefault();
-    if (!isHomePage) {
-      navigate('/');
-      setTimeout(() => {
-        if (targetId === 'home') window.scrollTo(0, 0);
-        else document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else {
-      if (targetId === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
-      else document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsOpen(false);
-  };
-
   const navLinks = [
-    { name: 'About', id: 'about' },
-    { name: 'Skills', id: 'skills' },
-    { name: 'Projects', id: 'projects' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
   ];
 
+  // Function to handle navigation
+  const handleScrollClick = (e, href) => {
+    if (!isHomePage) {
+      // If on Blog page, let the Link tag handle the redirect to "/"
+      return; 
+    }
+    // If on Home page, prevent redirect and scroll smoothly
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <nav className={`fixed w-full z-[100] transition-all duration-500 ${scrolled ? 'py-4' : 'py-6'}`}>
-      <div className={`max-w-5xl mx-auto px-6 ${scrolled ? 'bg-[#0F1C20]/80 backdrop-blur-xl border border-white/5 shadow-2xl rounded-full' : 'bg-transparent'}`}>
-        <div className="flex items-center justify-between h-12">
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || !isHomePage ? 'bg-primary/95 shadow-lg backdrop-blur-md py-2' : 'bg-transparent py-4'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           
           {/* Logo */}
-          <a onClick={(e) => handleNavigation(e, 'home')} className="flex items-center gap-2 cursor-pointer group">
-            <div className="bg-gradient-to-tr from-highlight to-orange-600 p-2 rounded-lg group-hover:rotate-12 transition-transform">
-              <Terminal size={20} className="text-[#0F1C20]" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-white">Faris<span className="text-highlight">.Dev</span></span>
-          </a>
+          <Link to="/" className="flex-shrink-0 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+            <span className="text-xl md:text-2xl font-bold text-white tracking-wider">
+              Shafee<span className="text-highlight"> Ahamed</span>
+            </span>
+          </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            <a onClick={(e) => handleNavigation(e, 'home')} className="text-sm font-medium text-gray-400 hover:text-white transition-colors cursor-pointer">Home</a>
-            {navLinks.map((link) => (
-              <a key={link.name} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium text-gray-400 hover:text-white transition-colors cursor-pointer">{link.name}</a>
-            ))}
-            <Link to="/blog" className="text-sm font-medium text-gray-400 hover:text-highlight transition-colors">Blog</Link>
-          </div>
-
-          {/* CTA */}
           <div className="hidden md:block">
-            <a onClick={(e) => handleNavigation(e, 'contact')} className="bg-white/5 hover:bg-highlight hover:text-[#0F1C20] border border-white/10 text-white px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 cursor-pointer">
-              Let's Talk
-            </a>
+            <div className="ml-10 flex items-baseline space-x-6 lg:space-x-8">
+              
+              <Link to="/" className="text-gray-300 hover:text-highlight px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Home
+              </Link>
+
+              {/* Dynamic Links (Skills, Projects) */}
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={isHomePage ? link.href : `/${link.href}`} // Add slash if on blog page
+                  onClick={(e) => handleScrollClick(e, link.href)}
+                  className="text-gray-300 hover:text-highlight px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer"
+                >
+                  {link.name}
+                </a>
+              ))}
+
+              {/* Blog Link */}
+              <Link 
+                to="/blog" 
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === '/blog' ? 'text-highlight' : 'text-gray-300 hover:text-highlight'}`}
+              >
+                Blog
+              </Link>
+
+              <a
+                href={isHomePage ? "#contact" : "/#contact"}
+                className="bg-highlight text-primary px-5 py-2 rounded-full text-sm font-bold hover:bg-white hover:scale-105 transition-all duration-300 shadow-md"
+              >
+                Contact Me
+              </a>
+            </div>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white"><Menu/></button>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white p-2">
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="absolute top-20 left-4 right-4 bg-[#16292F] border border-white/10 p-6 rounded-2xl shadow-2xl md:hidden flex flex-col gap-4 z-[100]">
-          <a onClick={(e) => handleNavigation(e, 'home')} className="text-lg font-bold text-white">Home</a>
-          {navLinks.map((link) => (
-            <a key={link.name} onClick={(e) => handleNavigation(e, link.id)} className="text-lg font-bold text-gray-400">{link.name}</a>
-          ))}
-          <Link to="/blog" className="text-lg font-bold text-highlight">Read Blog</Link>
+        <div className="md:hidden bg-primary border-t border-secondary absolute w-full shadow-2xl">
+          <div className="px-4 pt-2 pb-6 space-y-2">
+            <Link to="/" className="text-gray-300 block px-3 py-3 font-medium border-b border-gray-800" onClick={() => setIsOpen(false)}>Home</Link>
+            
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={isHomePage ? link.href : `/${link.href}`}
+                className="text-gray-300 block px-3 py-3 font-medium border-b border-gray-800"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </a>
+            ))}
+
+             <Link to="/blog" className="text-highlight block px-3 py-3 font-medium border-b border-gray-800" onClick={() => setIsOpen(false)}>Blog</Link>
+
+            <a
+              href={isHomePage ? "#contact" : "/#contact"}
+              className="w-full text-center block mt-4 bg-highlight text-primary px-5 py-3 rounded-md font-bold"
+              onClick={() => setIsOpen(false)}
+            >
+              Contact Me
+            </a>
+          </div>
         </div>
       )}
     </nav>
