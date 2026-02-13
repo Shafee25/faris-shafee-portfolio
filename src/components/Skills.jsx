@@ -1,71 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { Code, Cloud, Smartphone, Database, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { defaultSkills } from '../data/defaults'; // Import Defaults
+import { Code, Cloud, Cpu, Database, Globe, Terminal } from 'lucide-react';
+import { defaultSkills } from '../data/defaults';
 
 const Skills = () => {
-  const [firebaseSkills, setFirebaseSkills] = useState([]);
+  const [skills, setSkills] = useState([]);
 
   useEffect(() => {
     const q = query(collection(db, "skills"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setFirebaseSkills(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setSkills(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     });
     return () => unsubscribe();
   }, []);
 
-  const allSkills = [...firebaseSkills, ...defaultSkills];
-
-  // Helper to pick icons (randomly assigns if generic)
+  const allSkills = [...skills, ...defaultSkills];
   const getIcon = (title) => {
-    const t = title.toLowerCase();
-    if (t.includes('web') || t.includes('stack')) return <Code size={32} className="text-highlight" />;
-    if (t.includes('cloud') || t.includes('ops')) return <Cloud size={32} className="text-blue-400" />;
-    if (t.includes('mobile') || t.includes('iot')) return <Smartphone size={32} className="text-green-400" />;
-    if (t.includes('data')) return <Database size={32} className="text-purple-400" />;
-    return <Terminal size={32} className="text-gray-400" />;
+    if (title.includes('Web')) return <Globe size={28}/>;
+    if (title.includes('Cloud')) return <Cloud size={28}/>;
+    if (title.includes('IoT')) return <Cpu size={28}/>;
+    return <Code size={28}/>;
   };
 
   return (
-    <section id="skills" className="py-20 bg-white relative">
+    <section id="skills" className="py-32 bg-[#0F1C20] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-primary mb-4"
-          >
-            Technical Expertise
-          </motion.h2>
-          <div className="w-20 h-1 bg-highlight mx-auto rounded-full mb-4"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">Technologies I work with.</p>
+        
+        <div className="mb-20">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Technical <span className="text-highlight">Arsenal.</span></h2>
+          <div className="h-1 w-20 bg-gray-800"></div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative z-10">
-          {allSkills.map((skill, index) => (
-            <motion.div
-              key={skill.id}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}
-              className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"
-            >
-              {/* Subtle gradient hover effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-highlight/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="w-14 h-14 bg-primary/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300 relative z-10">
-                {getIcon(skill.title)}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+          {/* Main Large Block */}
+          <div className="md:col-span-2 row-span-1 md:row-span-2 bg-[#16292F] rounded-3xl p-8 border border-white/5 relative overflow-hidden group hover:border-highlight/30 transition-colors">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-highlight/5 rounded-full blur-[80px] group-hover:bg-highlight/10 transition-colors"></div>
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-highlight mb-4">
+                  <Terminal size={24}/>
+                </div>
+                <h3 className="text-3xl font-bold text-white mb-2">Full Stack Engineering</h3>
+                <p className="text-gray-400 max-w-md">My core strength. Building scalable architectures using the MERN stack and Laravel MVC patterns.</p>
               </div>
-              <h3 className="text-xl font-bold text-primary mb-3 relative z-10">{skill.title}</h3>
-              <p className="text-gray-500 mb-6 text-sm leading-relaxed relative z-10">{skill.description}</p>
-              <div className="flex flex-wrap gap-2 relative z-10">
-                {skill.tools && skill.tools.split(',').map((tool) => (
-                  <span key={tool} className="px-3 py-1 bg-gray-100 text-primary text-xs font-semibold rounded-full hover:bg-highlight hover:text-white transition-colors cursor-default">
-                    {tool.trim()}
-                  </span>
+              <div className="flex flex-wrap gap-2 mt-4">
+                {['React', 'Node.js', 'Laravel', 'Next.js', 'Tailwind'].map(t => (
+                  <span key={t} className="px-3 py-1 bg-black/20 text-gray-300 text-sm rounded-lg border border-white/5">{t}</span>
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Dynamic Blocks from DB */}
+          {allSkills.slice(1, 5).map((skill, i) => (
+            <motion.div 
+              key={skill.id}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              className="bg-[#16292F] rounded-3xl p-6 border border-white/5 flex flex-col justify-between hover:bg-[#1a3036] transition-colors group"
+            >
+              <div className="flex justify-between items-start">
+                <div className="p-3 bg-white/5 rounded-xl text-white group-hover:text-highlight transition-colors">
+                  {getIcon(skill.title)}
+                </div>
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-500 text-xs font-mono">0{i+2}</div>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-2">{skill.title}</h3>
+                <p className="text-sm text-gray-400 line-clamp-2">{skill.description}</p>
               </div>
             </motion.div>
           ))}
+
         </div>
       </div>
     </section>
