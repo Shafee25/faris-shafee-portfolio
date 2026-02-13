@@ -159,10 +159,7 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Footer Bottom */}
-        <div className="border-t border-white/10 mt-20 pt-8 text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} Faris Shafee. All rights reserved.</p>
-        </div>
+      
     </section>
   );
 };
