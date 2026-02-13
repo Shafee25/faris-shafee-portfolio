@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+// ... existing imports ...
 import Navbar from './components/Navbar';
 import BlogNavbar from './components/BlogNavbar';
 import Home from './pages/Home';
@@ -7,17 +8,22 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Admin from './pages/Admin';
 import Chatbot from './components/Chatbot';
-import DevTerminal from './components/DevTerminal'; // <--- IMPORT THIS
+import DevTerminal from './components/DevTerminal'; 
+import CommandPalette from './components/CommandPalette'; // <--- Import Palette
+import { useKonamiCode } from './hooks/useKonamiCode'; // <--- Import Konami
 
+// Layout Wrapper
 const Layout = ({ children }) => {
   const location = useLocation();
   const isBlogPage = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
   const isAdminPage = location.pathname === '/admin';
 
+  // Enable Konami Code globally
+  useKonamiCode(); 
+
   return (
     <div className="bg-white min-h-screen">
       
-      {/* Hide standard navbars on Admin page for immersion */}
       {!isAdminPage && (isBlogPage ? <BlogNavbar /> : <Navbar />)}
       
       {children}
@@ -30,7 +36,10 @@ const Layout = ({ children }) => {
 
       {/* Global Interactive Elements */}
       {!isAdminPage && <Chatbot />}
-      {!isAdminPage && <DevTerminal />}  {/* <--- ADD THIS */}
+      {!isAdminPage && <DevTerminal />}
+      
+      {/* GLOBAL COMMAND PALETTE - Available Everywhere */}
+      <CommandPalette /> 
     </div>
   );
 };
